@@ -1,18 +1,17 @@
 {
   "name": "fishpi.ext.offwork",
   "publisher": "hancel",
-  "version": "1.0.1",
-  "displayName": "小尾巴",
-  "description": "摸鱼聊天室小尾巴",
+  "version": "1.0.0",
+  "displayName": "下班倒计时",
+  "description": "已经迫不及待想要下班啦！",
   "private": true,
   "main": "extension/index.js",
   "author": "Hancel.Lin",
-  "repository": "https://github.com/imlinhanchao/fishpi-ext-tail",
+  "repository": "https://github.com/imlinhanchao/fishpi-ext-off-work",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "lanuch": "\"C:\\Program Files\\fishpi\\fishpi.exe\""
+    "lint": "vue-cli-service lint"
   },
   "fishpi": {
     "type": "extension",

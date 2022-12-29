@@ -16,6 +16,7 @@ module.exports = function createWindow(BrowserWindow) {
         transparent: true,
         show: true,
         frame: false,
+        skipTaskbar: true,
         webPreferences: {
             webviewTag: true,
             nodeIntegration: true,
@@ -26,7 +27,7 @@ module.exports = function createWindow(BrowserWindow) {
     })
     let Url = process.env.EXT_ENV == 'development' ? 
         "http://127.0.0.1:8080/#/time" :
-        path.join(__dirname, "..", "dist", "index.html/#/time");
+        path.join(__dirname, "..", "dist", "index.html") + '#/time';
 
     win.loadURL(Url);
     win.show();

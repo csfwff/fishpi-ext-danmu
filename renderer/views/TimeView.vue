@@ -71,7 +71,7 @@ export default {
         if(!sendOffWork) this.ipc.send('offwork.notice.offwork', this.end);
         sendOffWork = true;
       }
-      else sendOrder = false;
+      else sendOffWork = false;
     }, 1000);
     this.ipc.invoke('offwork.get.setting').then(setting => this.update(setting))
     this.ipc.on('offwork.change.setting', (event, setting) => this.update(setting))

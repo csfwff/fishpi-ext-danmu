@@ -1,12 +1,16 @@
 <template>
-  <div class="layout" :style="{fontSize: size + 'px', color, opacity }">
+  <div v-if="enable" class="layout" :style="{fontSize: size + 'px', color, opacity }">
     <div class="tooltip" v-if="tooltip">{{tooltip}}</div>
-    <div class="time">
+    <div class="time" v-if="isTimeWork && !isTimeOffWork">
       <span>{{countTime.hour}}</span>
       <i>:</i>
       <span>{{countTime.min}}</span>
       <i>:</i>
       <span>{{countTime.second}}</span>
+    </div>
+    <div v-else>
+      <span v-if="!isTimeOffWork">还没到上班时间</span>
+      <span v-else>该下班啦！🎉</span>
     </div>
   </div>
 </template>
@@ -19,6 +23,7 @@ export default {
   },
   data() {
     return {
+      enable: true,
       tooltip: '距离下班',
       size: 30,
       color: '#000',
@@ -39,31 +44,41 @@ export default {
         hour: '00',
         min: '00',
         second: '00',
-      }
-    }
+      },
+      isTimeWork: true,
+      isTimeOffWork: false,
+      isTimeOrder: false,
+      // eslint-disable-next-line no-undef
+      ipc: $ipc,
+    };
   },
   computed: {
   },
   async mounted() {
+    let sendOrder = false;
+    let sendOffWork = false;
     setInterval(() => {
+      this.isTimeWork = this.timeOffset(this.begin) <= 0;
+      this.isTimeOffWork = this.timeOffset(this.end) <= 0;
       this.countTime = this.offsetToTime(this.timeOffset(this.end));
+      if (Math.abs(this.timeOffset(this.order)) <= 20000) {
+        this.isTimeOrder = true;
+        if(!sendOrder) this.ipc.send('offwork.notice.order', this.order);
+        sendOrder = true;
+      }
+      else sendOrder = false;
+      if (this.timeOffset(this.end) <= 0) {
+        if(!sendOffWork) this.ipc.send('offwork.notice.offwork', this.end);
+        sendOffWork = true;
+      }
+      else sendOrder = false;
     }, 1000);
-    // eslint-disable-next-line no-undef
-    let setting = await $ipc.invoke('fishpi.get.setting');
-    if (setting) {
-      this.tooltip = setting.tooltip;
-      this.size = setting.size;
-      this.color = setting.color;
-      this.begin = setting.tooltip;
-      this.end = setting.end;
-      this.order = setting.order;
-      this.opacity = setting.opacity;
-    }
+    this.ipc.invoke('offwork.get.setting').then(setting => this.update(setting))
+    this.ipc.on('offwork.change.setting', (event, setting) => this.update(setting))
   },
   methods: {
     getNow() {
       return new Date();
-      //return new Date('2022/12/28 10:20:00')
     },
     timeOffset(target) {
       let now = this.getNow();
@@ -80,6 +95,16 @@ export default {
         min: time.getUTCMinutes().toString().padStart('2', '0'),
         second: time.getUTCSeconds().toString().padStart('2', '0'),
       }
+    },
+    update(setting) {
+      this.tooltip = setting.tooltip;
+      this.size = setting.size;
+      this.color = setting.color;
+      this.begin = setting.begin;
+      this.end = setting.end;
+      this.order = setting.order;
+      this.opacity = setting.opacity;
+      this.enable = setting.enable;
     }
   }
 }

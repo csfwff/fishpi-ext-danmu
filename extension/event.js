@@ -10,7 +10,7 @@ module.exports = function eventListen({ ipcMain, Notification }, getSetting) {
       new Notification({
         icon: path.join(__dirname, '..', 'public', 'icon.png'),
         title: '该订饭了！🍚', 
-        body: `${args.hour.toString().padStart(2, '0')}:${args.min.toString().padStart(2, '0')} 快到了！该订饭了！`,
+        body: `${args.hour.toString().padStart(2, '0')}:${args.min.toString().padStart(2, '0')} 快到了！该订饭了！\n(点击消息关闭提醒)`,
       }).show()
     } catch (error) {
       console.log(error);
@@ -22,7 +22,7 @@ module.exports = function eventListen({ ipcMain, Notification }, getSetting) {
       new Notification({
         icon: path.join(__dirname, '..', 'public', 'icon.png'),
         title: '该下班了！🎉', 
-        body: `${args.hour.toString().padStart(2, '0')}:${args.min.toString().padStart(2, '0')} 到了！该下班了！`,
+        body: `${args.hour.toString().padStart(2, '0')}:${args.min.toString().padStart(2, '0')} 到了！该下班了！\n(点击消息关闭提醒)`,
       }).show()
     } catch (error) {
       console.log(error);

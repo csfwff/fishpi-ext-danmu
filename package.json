@@ -1,7 +1,7 @@
 {
   "name": "fishpi.ext.offwork",
   "publisher": "hancel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "下班倒计时",
   "description": "已经迫不及待想要下班啦！",
   "private": true,

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="height: 100%;">
     <router-view />
   </div>
 </template>
@@ -16,4 +16,24 @@ export default {
 </script>
 
 <style lang="less">
+p {
+  margin: 0px !important;
+    margin-block: 0px !important;
+    margin-inline: 0px !important;
+}
+
+img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+blockquote {
+    margin: 0px !important;
+    margin-block: 0px !important;
+    margin-inline: 0px !important;
+}
+
+.vue-danmaku .danmus .dm {
+  white-space: unset !important;
+}
 </style>

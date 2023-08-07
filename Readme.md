@@ -2,7 +2,7 @@
   <img width="200" src="./public/icon.png">
 </p>
 
-这是 [摸鱼派客户端](https://github.com/imlinhanchao/fishpi-desktop) 下班倒计时扩展，可以在桌面显示一个下班时间倒计时。
+这是 [摸鱼派客户端](https://github.com/imlinhanchao/fishpi-desktop) 消息弹幕扩展，可以将消息转为弹幕。
 
 ## 安装方式
 

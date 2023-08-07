@@ -1,55 +1,20 @@
 <template>
   <div class="layout">
     <p>
+      <label for="enable">是否显示弹幕</label>
       <input class="pretty" type="checkbox" id="enable" v-model="setting.enable"/>
-      <label for="enable">是否开启</label>
+    
     </p>
     <p>
-      <label for="tooltip">ToolTip</label>
-      <input class="pretty" type="text" id="tooltip" v-model="setting.tooltip"/>
+      <label for="input">是否显示输入框</label>
+      <input class="pretty" type="checkbox" id="input" v-model="setting.input"/>
+    
     </p>
     <p>
-      <label for="size">字号</label>
-      <input class="pretty" type="number" id="size" v-model="setting.size"/>
+      <label for="speed">弹幕速度</label>
+      <input class="prettyspeed" type="number" id="speed" v-model="setting.speed"/>
     </p>
-    <p>
-      <label for="size">颜色</label>
-      <input class="pretty" type="color" id="size" v-model="setting.color"/>
-    </p>
-    <p>
-      <label for="opacity">透明度</label>
-      <input type="range" id="opacity" min="0" max="1" step="0.01" v-model="setting.opacity">
-    </p>
-    <p>
-      <label for="begin-hour">上班时间</label>
-      <select v-model="setting.begin.hour" id="begin-hour">
-        <option v-for="h in hours" :key="h" :value="h">{{h.toString().padStart(2, '0')}}</option>
-      </select>
-      <span>:</span>
-      <select v-model="setting.begin.min" id="begin-min">
-        <option v-for="m in mins" :key="m" :value="m">{{m.toString().padStart(2, '0')}}</option>
-      </select>
-    </p>
-    <p>
-      <label for="begin-hour">下班时间</label>
-      <select v-model="setting.end.hour" id="begin-hour">
-        <option v-for="h in hours" :key="h" :value="h">{{h.toString().padStart(2, '0')}}</option>
-      </select>
-      <span>:</span>
-      <select v-model="setting.end.min" id="begin-min">
-        <option v-for="m in mins" :key="m" :value="m">{{m.toString().padStart(2, '0')}}</option>
-      </select>
-    </p>
-    <p>
-      <label for="begin-hour">订饭时间</label>
-      <select v-model="setting.order.hour" id="begin-hour">
-        <option v-for="h in hours" :key="h" :value="h">{{h.toString().padStart(2, '0')}}</option>
-      </select>
-      <span>:</span>
-      <select v-model="setting.order.min" id="begin-min">
-        <option v-for="m in mins" :key="m" :value="m">{{m.toString().padStart(2, '0')}}</option>
-      </select>
-    </p>
+ 
     <p><button @click="save">设置</button></p>
     <p>{{error}}</p>
   </div>
@@ -65,26 +30,10 @@ export default {
     return {
       error: '',
       setting: {
-        tooltip: '距离下班',
-        size: 30,
-        color: '#000000',
-        opacity: .50,
         enable: true,
-        begin: {
-          hour: 9,
-          min: 0,
-        },
-        end: {
-          hour: 18,
-          min: 0,
-        },
-        order: {
-          hour: 11,
-          min: 30,
-        },
+        input:true,
+        speed:100,
       },
-      hours: Array(24).fill(0).map((_, i) => i),
-      mins: Array(60).fill(0).map((_, i) => i),
     }
   },
   computed: {
@@ -93,6 +42,12 @@ export default {
     // eslint-disable-next-line no-undef
     let setting = await $ipc.invoke('fishpi.get.setting');
     if (setting) this.setting = setting;
+    // eslint-disable-next-line no-undef
+    $ipc.on('on-event', (data) => {
+    console.log(data) // 'your data'
+})
+
+    
   },
   methods: {
     save() {
@@ -110,8 +65,8 @@ export default {
   padding: 10px;
   label {
     display: inline-block;
-    width: 5em;
-    text-align: right;
+    width: 10em;
+    text-align: left;
     padding-right: 10px;
   }
   textarea {

@@ -5,12 +5,14 @@ const hotkeyRegister = require('./hotkey')
 const createWindow = require('./window');
 const eventListen = require('./event');
 const storage = require('./storage')
+const createMsgWindow = require('./msgWindow')
 
-
+let win
 function activate(context, electron) {
     const { BrowserWindow, globalShortcut, ipcMain, Notification } = electron;
-    const win = createWindow(BrowserWindow);
+    win = createMsgWindow(BrowserWindow,electron);
     eventListen({ ipcMain, Notification }, () => storage.get());
+
     let ignore = true;
     hotkeyRegister(globalShortcut, 'mouse', 'win+shift+f1', () => {
         win.setIgnoreMouseEvents(!ignore);
@@ -39,7 +41,7 @@ function activate(context, electron) {
             case 'fishpi.set.setting':
             {
                 storage.set(args);
-                win.webContents.send(`offwork.change.setting`, args);
+                win.webContents.send(`danmu.change.setting`, args);
                 break;
             }
         }
@@ -53,4 +55,13 @@ function getSettingUrl() {
     return Url;
 }
 
-module.exports = { activate, getSettingUrl }
+function  hooks(){
+    return{
+        async messageEvent(msg) {
+            console.log(msg);
+            win.webContents.send('on-receive-msg', msg)
+            return msg
+        }
+    } 
+}
+module.exports = { activate, getSettingUrl,hooks }

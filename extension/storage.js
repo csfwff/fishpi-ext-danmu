@@ -5,7 +5,7 @@ let localstorage = new LocalStorage(path.resolve(__dirname, "local"));
 let settings = localstorage.getItem('danmusetting');
 settings = settings ? JSON.parse(settings) : {
     enable: true,
-    input:true,
+    input:false,
     speed:100,
     borderEnable:false,
 };

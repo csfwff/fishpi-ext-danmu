@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/HomeView.vue'
 import Msg from '../views/MsgView.vue'
+import Input from '../views/InputView.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/msg',
     name: 'msg',
     component: Msg
+  },
+  {
+    path: '/input',
+    name: 'input',
+    component: Input
   }
 ]
 

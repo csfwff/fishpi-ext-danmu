@@ -1,6 +1,6 @@
 <template>
-    <div v-if="enable" class="layout" :class="{bordered:borderEnabel}" style="height: 100%;">
-        <vue-danmaku v-model="danmus" style="height: 100%;width:100%;" ref="danmakuRef" useSlot randomChannel isSuspend
+    <div v-if="enable" class="layout"  style="height: 100%;">
+        <vue-danmaku v-model="danmus"  style="height: 100%;width:100%;" :class="{bordered:borderEnable}" ref="danmakuRef" useSlot randomChannel isSuspend
             :speeds="speed">
             <!-- 弹幕插槽（vue 2.6.0 及以上版本可使用 v-slot:dm="{ index, danmu }"语法） -->
             <template slot="dm" slot-scope="{  danmu }">
@@ -29,7 +29,7 @@ export default {
             enable:true,
             danmus: [],
             speed: 100,
-            borderEnabel:false,
+            borderEnable:false,
         };
     },
     computed: {
@@ -38,7 +38,7 @@ export default {
     async mounted() {
         // eslint-disable-next-line no-undef
         $ipc.on('on-receive-msg', (sender, data) => {
-            if (data.type == 'msg') {
+            if (this.enable&&data.type == 'msg') {
                 this.$refs.danmakuRef.add(data.data)
             }
         })
@@ -65,7 +65,7 @@ export default {
         update(setting) {
             this.speed = Number(setting.speed);
             this.enable = setting.enable;
-            this.borderEnabel = setting.borderEnabel;
+            this.borderEnable = setting.borderEnable;
         },
  
     }

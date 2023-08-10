@@ -67,6 +67,6 @@ module.exports = function createWindow(BrowserWindow, electron) {
   if (process.env.EXT_ENV == "development") win.openDevTools();
   win.setAlwaysOnTop(true);
 
-  win.setIgnoreMouseEvents(true);
+  if (process.env.EXT_ENV != "development") win.setIgnoreMouseEvents(true);
   return win;
 };

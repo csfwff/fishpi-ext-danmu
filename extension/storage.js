@@ -7,6 +7,7 @@ settings = settings ? JSON.parse(settings) : {
     enable: true,
     input:true,
     speed:100,
+    borderEnable:false,
 };
 
 module.exports = {

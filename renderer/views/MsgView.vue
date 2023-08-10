@@ -1,7 +1,7 @@
 <template>
-    <div class="layout" style="height: 100%;">
+    <div v-if="enable" class="layout" :class="{bordered:borderEnabel}" style="height: 100%;">
         <vue-danmaku v-model="danmus" style="height: 100%;width:100%;" ref="danmakuRef" useSlot randomChannel isSuspend
-            :speeds="speeds">
+            :speeds="speed">
             <!-- 弹幕插槽（vue 2.6.0 及以上版本可使用 v-slot:dm="{ index, danmu }"语法） -->
             <template slot="dm" slot-scope="{  danmu }">
                 <div class="danmuItem">
@@ -26,8 +26,10 @@ export default {
     },
     data() {
         return {
+            enable:true,
             danmus: [],
-            speeds: 100,
+            speed: 100,
+            borderEnabel:false,
         };
     },
     computed: {
@@ -45,18 +47,25 @@ export default {
             this.$refs.danmakuRef.resize()
         })
         // eslint-disable-next-line no-undef
-        $ipc.invoke('danmu.get.setting').then(setting => this.update(setting))
-        // eslint-disable-next-line no-undef
+        $ipc.on('on-hide-msg', () => {
+            this.enable = !this.enable
+        })
+
+       // eslint-disable-next-line no-undef
         $ipc.on('danmu.change.setting', (event, setting) => this.update(setting))
-        
+
+        // eslint-disable-next-line no-undef
+        $ipc.invoke('danmu.get.setting').then(setting => this.update(setting))
+
     },
     methods: {
         clearData() {
             this.danmus.length = 0
         },
         update(setting) {
-            console.log(setting);
-            this.speeds = setting.speeds;
+            this.speed = Number(setting.speed);
+            this.enable = setting.enable;
+            this.borderEnabel = setting.borderEnabel;
         },
  
     }
@@ -72,12 +81,18 @@ export default {
     align-items: center;
     -webkit-app-region: drag;
 
+    .bordered{
+        border: solid 1px #666666;
+    }
+    
+
     .danmuItem {
         display: flex;
         flex-direction: column;
         padding: 4px;
-        border-radius: 4px;
+        border-radius: 8px;
         background: #00000088;
+        font-size: 16px;
 
         .danmuContent {
 
@@ -86,8 +101,8 @@ export default {
             }
 
             &>img {
-                max-width: 200px;
-                max-height: 200px;
+                max-width: 160px;
+                max-height: 160px;
             }
         }
 
@@ -98,13 +113,14 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: center;
+        font-size: 12px;
     }
 
     .headImg {
-        width: 32px;
-        height: 32px;
+        width: 24px;
+        height: 24px;
         border: solid 2px white;
-        border-radius: 4px;
+        border-radius: 16px;
     }
 }
 </style>

@@ -19,6 +19,10 @@ function activate(context, electron) {
         ignore = !ignore;
     })
 
+    hotkeyRegister(globalShortcut, 'hide', 'win+esc', () => {
+        win.webContents.send('on-hide-msg')
+    })
+
     context.on('login', function(token) {
         console.dir(token);
     })

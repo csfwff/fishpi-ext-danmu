@@ -6,6 +6,11 @@
     
     </p>
     <p>
+      <label for="borderEnable">是否显示边框</label>
+      <input class="pretty" type="checkbox" id="borderEnable" v-model="setting.borderEnable"/>
+    
+    </p>
+    <p>
       <label for="input">是否显示输入框</label>
       <input class="pretty" type="checkbox" id="input" v-model="setting.input"/>
     
@@ -15,7 +20,7 @@
       <input class="prettyspeed" type="number" id="speed" v-model="setting.speed"/>
     </p>
  
-    <p><button @click="save">设置</button></p>
+    <p><button @click="save" style="margin-top: 5px;">设置</button></p>
     <p>{{error}}</p>
   </div>
 </template>
@@ -30,6 +35,7 @@ export default {
     return {
       error: '',
       setting: {
+        borderEnable:false,
         enable: true,
         input:true,
         speed:100,

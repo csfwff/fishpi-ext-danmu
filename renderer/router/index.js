@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/HomeView.vue'
-import Time from '../views/TimeView.vue'
 import Msg from '../views/MsgView.vue'
 
 Vue.use(VueRouter)
@@ -11,11 +10,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
-  },
-  {
-    path: '/time',
-    name: 'time',
-    component: Time
   },
   {
     path: '/msg',

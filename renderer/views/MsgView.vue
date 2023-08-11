@@ -49,6 +49,9 @@ export default {
         // eslint-disable-next-line no-undef
         $ipc.on('on-hide-msg', () => {
             this.enable = !this.enable
+            if(!this.enable){
+                this.danmus.length = 0
+            }
         })
 
        // eslint-disable-next-line no-undef

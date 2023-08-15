@@ -1,7 +1,7 @@
 <template>
-    <div v-if="input" class="layout"  style="height: 100%;">
-        <div class="drag">🍓</div>
-       <input v-model="data" @keyup.enter="sendMsg" style="flex:1"/>
+    <div v-if="input" class="layout"  style="height: 100%; border-radius: 4px;" :style="{background:inputBg}">
+        <div class="drag" style="margin-right: 4px;">🍓</div>
+       <input v-model="data" @keyup.enter="sendMsg" style="flex:1;background: transparent; border-width: 1px; border-radius: 4px;"/>
     </div>
 </template>
   
@@ -14,7 +14,8 @@ export default {
     data() {
         return {
             input:true,
-            data:''
+            data:'',
+            inputBg: 'rgba(255,255,255,0.5)',
         };
     },
     computed: {
@@ -38,6 +39,7 @@ export default {
         },
         update(setting) {
             this.input = setting.input;
+            this.inputBg = setting.inputBg;
         },
  
     }

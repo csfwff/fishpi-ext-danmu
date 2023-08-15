@@ -1,15 +1,15 @@
 <template>
-    <div v-if="enable" class="layout"  style="height: 100%;">
+    <div class="layout"  style="height: 100%;">
         <vue-danmaku v-model="danmus"  style="height: 100%;width:100%;" :class="{bordered:borderEnable}" ref="danmakuRef" useSlot randomChannel isSuspend
             :speeds="speed">
             <!-- 弹幕插槽（vue 2.6.0 及以上版本可使用 v-slot:dm="{ index, danmu }"语法） -->
             <template slot="dm" slot-scope="{  danmu }">
-                <div class="danmuItem">
+                <div class="danmuItem" :style="{background:danmuBg}">
                     <div class="danmuUser">
                         <img :src="danmu.userAvatarURL" class="headImg">
-                        <div>{{ danmu.userNickname }}：({{ danmu.userName }})</div>
+                        <div :style="{color:danmuTvColor}">{{ danmu.userNickname }}：({{ danmu.userName }})</div>
                     </div>
-                    <div v-html="danmu.content" class="danmuContent"></div>
+                    <div :style="{color:danmuTvColor}" v-html="danmu.content" class="danmuContent"></div>
                 </div>
             </template>       
         </vue-danmaku>
@@ -26,10 +26,11 @@ export default {
     },
     data() {
         return {
-            enable:true,
             danmus: [],
             speed: 100,
             borderEnable:false,
+            danmuBg: 'rgba(0,0,0,0.5)',
+            danmuTvColor: 'rgba(10,10,10,1)',
         };
     },
     computed: {
@@ -46,13 +47,7 @@ export default {
         $ipc.on('resize', () => {
             this.$refs.danmakuRef.resize()
         })
-        // eslint-disable-next-line no-undef
-        $ipc.on('on-hide-msg', () => {
-            this.enable = !this.enable
-            if(!this.enable){
-                this.danmus.length = 0
-            }
-        })
+
 
        // eslint-disable-next-line no-undef
         $ipc.on('danmu.change.setting', (event, setting) => this.update(setting))
@@ -69,6 +64,8 @@ export default {
             this.speed = Number(setting.speed);
             this.enable = setting.enable;
             this.borderEnable = setting.borderEnable;
+            this.danmuBg= setting.danmuBg;
+            this.danmuTvColor= setting.danmuTvColor;
         },
  
     }
@@ -94,7 +91,6 @@ export default {
         flex-direction: column;
         padding: 4px;
         border-radius: 8px;
-        background: #00000088;
         font-size: 16px;
 
         .danmuContent {

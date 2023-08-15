@@ -11,18 +11,27 @@ let win
 function activate(context, electron) {
     const { BrowserWindow, globalShortcut, ipcMain, Notification } = electron;
     win = createMsgWindow(BrowserWindow, electron);
-    const inputWin = createInputWindow(BrowserWindow)
+    const inputWin = createInputWindow(BrowserWindow,electron)
     eventListen({ ipcMain, Notification }, () => storage.get(),(msg)=>context.fishpi.chatroom.send(msg));
 
+    let storageData = storage.get()    
     let ignore = true;
-    hotkeyRegister(globalShortcut, 'mouse', 'win+shift+f1', () => {
+    hotkeyRegister(globalShortcut, 'mouse', 'win+shift+f2', () => {
         win.setIgnoreMouseEvents(!ignore);
         ignore = !ignore;
     })
 
     hotkeyRegister(globalShortcut, 'hide', 'win+esc', () => {
         win.webContents.send('on-hide-msg')
+        win.isVisible() ? win.hide() : win.show()
+        let data = storage.get()
+        data.enable = win.isVisible()
+        storage.set(data);
     })
+
+    if(!storageData.enable){
+        win.hide()
+    }
 
     context.on('login', function (token) {
         console.dir(token);

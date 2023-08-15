@@ -11,9 +11,8 @@ size = size ? JSON.parse(size) : null;
 module.exports = function createWindow(BrowserWindow,electron) {
     if (win) return win;
     win = new BrowserWindow({
-        minWidth: 200,
-        minHeight: 20,
-        width: 100,
+        resizable:false,
+        width: 200,
         height: 40,
         transparent: true,
         show: true,

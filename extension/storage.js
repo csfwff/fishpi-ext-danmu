@@ -8,6 +8,9 @@ settings = settings ? JSON.parse(settings) : {
     input:false,
     speed:100,
     borderEnable:false,
+    danmuBg: 'rgba(0,0,0,0.5)',
+    inputBg: 'rgba(255,255,255,0.5)',
+    danmuTvColor: 'rgba(10,10,10,1)',
 };
 
 module.exports = {
